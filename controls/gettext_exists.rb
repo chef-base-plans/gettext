@@ -7,7 +7,7 @@ control 'core-plans-gettext-exists' do
   impact 1.0
   title 'Ensure gettext exists'
   desc '
-  Verify gettext by ensuring /bin/gettext exists'
+  Verify gettext by ensuring bin/gettext exists'
   
   plan_installation_directory = command("hab pkg path #{plan_origin}/#{plan_name}")
   describe plan_installation_directory do
@@ -15,8 +15,8 @@ control 'core-plans-gettext-exists' do
     its('stdout') { should_not be_empty }
   end
 
-  command_relative_path = input('command_relative_path', value: '/bin/gettext')
-  command_full_path = plan_installation_directory.stdout.strip + "#{command_relative_path}"
+  command_relative_path = input('command_relative_path', value: 'bin/gettext')
+  command_full_path = File.join(plan_installation_directory.stdout.strip, "#{command_relative_path}")
   describe file(command_full_path) do
     it { should exist }
   end
